@@ -1,4 +1,4 @@
-﻿namespace ExtensionMethods
+﻿namespace ExtensionMethods.Extensions
 {
     public static class StringExtensions
     {

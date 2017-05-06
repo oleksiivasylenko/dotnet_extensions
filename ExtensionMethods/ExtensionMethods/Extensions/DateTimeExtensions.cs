@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExtensionMethods
+namespace ExtensionMethods.Extensions
 {
     public static class DateTimeExtensions
     {
@@ -23,9 +23,8 @@ namespace ExtensionMethods
         {
             var nextDay = date;
             while (!nextDay.IsWorkingDay())
-            {
                 nextDay = nextDay.AddDays(1);
-            }
+
             return nextDay;
         }
 
@@ -33,11 +32,19 @@ namespace ExtensionMethods
         {
             var offsetDays = dayOfWeek - current.DayOfWeek;
             if (offsetDays <= 0)
-            {
                 offsetDays += 7;
-            }
+
             var result = current.AddDays(offsetDays);
             return result;
+        }
+
+        public static DateTime DateOfDayOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            var diff = dt.DayOfWeek - startOfWeek;
+            if (diff < 0)
+                diff += 7;
+
+            return dt.AddDays(-1 * diff).Date;
         }
     }
 }

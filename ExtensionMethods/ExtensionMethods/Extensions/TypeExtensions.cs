@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace ExtensionMethods
+namespace ExtensionMethods.Extensions
 {
-    public static class TExtensions
+    public static class TypeExtensions
     {
         /// <summary>
         /// Makes deep copy of an object. Depends on NewtonSoft.Json
@@ -36,12 +36,12 @@ namespace ExtensionMethods
         }
 
         /// <summary>
-        /// 
+        /// Allows to add item to collection in more readable way. Ex item.AddTo(collection)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <param name="coll"></param>
-        /// <returns></returns>
+        /// <returns>Added item</returns>
         public static T AddTo<T>(this T self, ICollection<T> coll)
         {
             coll.Add(self);

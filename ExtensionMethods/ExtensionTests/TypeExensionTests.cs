@@ -1,4 +1,4 @@
-﻿using ExtensionMethods;
+﻿using ExtensionMethods.Extensions;
 using ExtensionTests.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -6,12 +6,12 @@ using Newtonsoft.Json;
 namespace ExtensionTests
 {
     [TestClass]
-    public class TExensionTests
+    public class TypeExensionTests
     {
         [TestMethod]
         public void DeepCloneTest()
         {
-            var user1 = new User(1, "John");
+            var user1 = new User(1, "John", new Role(1, "RoleTest", new RoleArea(1, RoleAreaType.Portal)));
             var user2 = user1.DeepClone();
 
             Assert.AreEqual(JsonConvert.SerializeObject(user1), JsonConvert.SerializeObject(user2));
