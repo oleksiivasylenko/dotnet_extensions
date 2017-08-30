@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using ExtensionMethods.Extensions;
-using ExtensionTests.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ExtensionTests
+namespace EverNetExtensionTests
 {
     [TestClass]
     public class CollectionExtensionTests

@@ -1,8 +1,7 @@
 ﻿using System;
-using ExtensionMethods.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ExtensionTests
+namespace EverNetExtensionTests
 {
     [TestClass]
     public class DateTimeExtensionTests

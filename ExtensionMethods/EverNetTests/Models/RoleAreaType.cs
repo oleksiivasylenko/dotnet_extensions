@@ -1,4 +1,4 @@
-namespace ExtensionTests.Models
+namespace EverNetExtensionTests.Models
 {
     public enum RoleAreaType
     {

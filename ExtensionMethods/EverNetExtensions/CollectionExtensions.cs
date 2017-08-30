@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ExtensionMethods.Extensions
+namespace Collection
 {
     public static class CollectionExtensions
     {
         /// <summary>
-        /// Execute ab action on each item in collection
+        /// Execute an action for each item of the collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="items">Items collection</param>
@@ -20,7 +20,7 @@ namespace ExtensionMethods.Extensions
         }
 
         /// <summary>
-        /// Do an action for each item in collection
+        /// Execute an action for each item of the collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="items">Items collection</param>
@@ -42,12 +42,12 @@ namespace ExtensionMethods.Extensions
         public static List<T> Replace<T>(this List<T> source, T oldItem, T newItem)
         {
             if (source == null || oldItem == null || newItem == null)
-                throw new ArgumentNullException("source || oldItem || newItem");
+                throw new ArgumentNullException("(source || oldItem || newItem) can't be null!");
 
             var indexOfOldVaule = source.IndexOf(oldItem);
 
             if (indexOfOldVaule == -1)
-                throw new ArgumentOutOfRangeException("source does not contain oldItem");
+                throw new ArgumentOutOfRangeException("The source does not contain old item!");
 
             source[indexOfOldVaule] = newItem;
             return source;
@@ -64,12 +64,12 @@ namespace ExtensionMethods.Extensions
         public static T[] Replace<T>(this T[] source, T oldItem, T newItem)
         {
             if (source == null || oldItem == null || newItem == null)
-                throw new ArgumentNullException("source || oldItem || newItem");
+                throw new ArgumentNullException("(source || oldItem || newItem) can't be null!");
 
             var indexOfOldVaule = Array.IndexOf(source, oldItem);
 
             if (indexOfOldVaule == -1)
-                throw new ArgumentOutOfRangeException("source does not contain oldItem");
+                throw new ArgumentOutOfRangeException("The source does not contain old item!");
 
             source[indexOfOldVaule] = newItem;
             return source;
@@ -86,12 +86,12 @@ namespace ExtensionMethods.Extensions
         public static List<T> Replace<T>(this List<T> source, Predicate<T> expression, T newItem)
         {
             if (source == null || newItem == null)
-                throw new ArgumentNullException("source || newItem");
+                throw new ArgumentNullException("(source || newItem) can't be null!");
 
             var indexOfOldVaule = source.FindIndex(expression);
 
             if (indexOfOldVaule == -1)
-                throw new ArgumentOutOfRangeException("source does not contain oldItem");
+                throw new ArgumentOutOfRangeException("The source does not contain old item!");
 
             source[indexOfOldVaule] = newItem;
             return source;
@@ -108,12 +108,12 @@ namespace ExtensionMethods.Extensions
         public static T[] Replace<T>(this T[] source, Predicate<T> expression, T newItem)
         {
             if (source == null || newItem == null)
-                throw new ArgumentNullException("source || newItem");
+                throw new ArgumentNullException("(source || newItem) can't be null!");
 
             var indexOfOldVaule = Array.FindIndex(source, expression);
 
             if (indexOfOldVaule == -1)
-                throw new ArgumentOutOfRangeException("source does not contain oldItem");
+                throw new ArgumentOutOfRangeException("The source does not contain old item!");
 
             source[indexOfOldVaule] = newItem;
             return source;

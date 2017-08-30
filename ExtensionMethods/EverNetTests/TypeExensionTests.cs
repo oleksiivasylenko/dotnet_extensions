@@ -1,9 +1,6 @@
-﻿using ExtensionMethods.Extensions;
-using ExtensionTests.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ExtensionTests
+namespace EverNetExtensionTests
 {
     [TestClass]
     public class TypeExensionTests

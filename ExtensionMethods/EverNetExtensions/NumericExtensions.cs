@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExtensionMethods.Extensions
+namespace Numeric
 {
     public static class NumericExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExtensionMethods.Extensions
+namespace EnumExt
 {
     public static class EnumExtensions
     {
