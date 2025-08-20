@@ -82,7 +82,7 @@ namespace Collection
         /// <param name="source">The source</param>
         /// <param name="expression">Expression to find item in a collection.</param>
         /// <param name="newItem">Item which will be inserted</param>
-        /// <returns>List with replaced item </returns>
+        /// <returns>List with replaced item</returns>
         public static List<T> Replace<T>(this List<T> source, Predicate<T> expression, T newItem)
         {
             if (source == null || newItem == null)
