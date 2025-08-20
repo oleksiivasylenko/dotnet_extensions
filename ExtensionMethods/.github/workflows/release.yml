@@ -1,0 +1,112 @@
+name: build-once-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release tag (e.g., 1.0.0)'
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  PROJECT_FILE: WinKeySwitcher/WinKeySwitcher.csproj
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # --- x64 ---
+          - rid: win-x64
+            platform: x64
+            selfContained: true
+            r2r: true
+            suffix: sc
+          - rid: win-x64
+            platform: x64
+            selfContained: false
+            r2r: false
+            suffix: fdd
+          # --- x86 (only self-contained) ---
+          - rid: win-x86
+            platform: x86
+            selfContained: true
+            r2r: true
+            suffix: sc
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Publish ${{ matrix.rid }}-${{ matrix.suffix }}
+        run: >
+          dotnet publish $env:PROJECT_FILE
+          -c Release
+          -r ${{ matrix.rid }}
+          -p:PlatformTarget=${{ matrix.platform }}
+          --self-contained ${{ matrix.selfContained }}
+          -p:PublishSingleFile=true
+          -p:PublishReadyToRun=${{ matrix.r2r }}
+          -p:EnableCompressionInSingleFile=${{ matrix.selfContained }}
+          -p:IncludeNativeLibrariesForSelfExtract=${{ matrix.selfContained }}
+          -p:DebugType=none
+          -p:DebugSymbols=false
+
+      - name: Prepare artifacts
+        shell: pwsh
+        run: |
+          $rid='${{ matrix.rid }}'
+          $tag='${{ inputs.version }}'
+          $suffix='${{ matrix.suffix }}'
+          $projDir = Split-Path $env:PROJECT_FILE
+          $tfm = 'net9.0-windows'
+          $pub = Join-Path $projDir "bin/Release/$tfm/$rid/publish"
+
+          if (!(Test-Path $pub)) { throw "Publish folder not found: $pub" }
+
+          New-Item -Force -ItemType Directory "dist/$rid" | Out-Null
+
+          $outExe = "WinKeySwitcher-$tag-$rid-$suffix.exe"
+          Copy-Item "$pub/WinKeySwitcher.exe" "dist/$rid/$outExe"
+
+      - name: Upload artifacts ${{ matrix.rid }}-${{ matrix.suffix }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: WinKeySwitcher-${{ inputs.version }}-${{ matrix.rid }}-${{ matrix.suffix }}
+          path: dist/${{ matrix.rid }}/*.exe
+          if-no-files-found: error
+
+  release:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-bundle
+
+      - name: List files
+        shell: bash
+        run: ls -R release-bundle
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.version }}
+          name: ${{ inputs.version }}
+          files: |
+            release-bundle/*/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
